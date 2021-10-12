@@ -17,22 +17,9 @@ Instead of connecting to a remote API, we are providing this data in form of JSO
 4. How you use this data point to sort the users
  */
 
-// 1. First, start by modeling the data objects that will be used.
-
-
-
-
 
 
 fun main(vararg args: String) {
-
-    // 2. Next, decode the JSON source using `[Data.getUsers()]`
-
-
-
-    // 3. Finally, calculate the average number of comments per user and use it
-    //    to find the 3 most engaging bloggers and output the result.
-
 
 
 }
