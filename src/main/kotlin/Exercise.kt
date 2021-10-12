@@ -21,13 +21,16 @@ Instead of connecting to a remote API, we are providing this data in form of JSO
  */
 
 
-
 fun main(vararg args: String) {
+
+    //variables to hold the list of data from json files
     val commentList = Data.getComments<List<Comment>>()
     val userList = Data.getUsers<List<User>>()
     val postList = Data.getPosts<List<Post>>()
 
+    //define hash map to hold comment for every post
     val commentNumber: HashMap<Int, Int> = HashMap()
+
     for (comments in commentList) {
         val postId = comments.postId
         if (commentNumber.containsKey(postId)) {
@@ -36,5 +39,29 @@ fun main(vararg args: String) {
             commentNumber[postId] = 1
         }
     }
-    System.out.println("values= "+commentNumber)
+
+    //define variables for users average calculation process
+    var commentSum: Float = 0f
+    var commentPerUser: Float = 0f
+    //hash map to hold user average
+    val userAverage: HashMap<Int, Array<Float>> = HashMap()
+
+    for (posts in postList) {
+        val userId = posts.userId
+        val postId = posts.id
+        if (userAverage.containsKey(userId)) {
+            commentSum = userAverage[userId]?.get(0)!!
+            commentPerUser = userAverage[userId]?.get(1)!!
+            val number = commentNumber[postId]
+            number?.let { commentSum += number }
+            commentPerUser += 1
+            userAverage[userId] = arrayOf(commentSum, commentPerUser)
+        } else {
+            val number = commentNumber[postId]
+            commentSum = number?.toFloat()!!
+            commentPerUser = 1f
+            userAverage[userId] = arrayOf(commentSum, commentPerUser)
+        }
+    }
+
 }
