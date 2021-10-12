@@ -1,3 +1,6 @@
+import data.Comment
+import data.Post
+import data.User
 import resources.Data
 
 /**
@@ -20,6 +23,10 @@ Instead of connecting to a remote API, we are providing this data in form of JSO
 
 
 fun main(vararg args: String) {
+    val commentList = Data.getComments<List<Comment>>()
+    val userList = Data.getUsers<List<User>>()
+    val postList = Data.getPosts<List<Post>>()
 
+    val commentNumber: HashMap<Int, Int> = HashMap()
 
 }
