@@ -64,4 +64,12 @@ fun main(vararg args: String) {
         }
     }
 
+    //iterate through users to find average of each user with its id and name
+    for(users in userAverage.keys){
+        commentSum= userAverage[users]?.get(0)!!
+        commentPerUser=userAverage[users]?.get(1)!!
+        val average:Float=commentSum/commentPerUser
+        System.out.println("user id= "+users+ " average= "+average+"name= "+userList[users-1].name)
+    }
+
 }
