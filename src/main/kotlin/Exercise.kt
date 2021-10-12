@@ -33,9 +33,11 @@ fun main(vararg args: String) {
 
     for (comments in commentList) {
         val postId = comments.postId
+        //if hash defined for the key
         if (commentNumber.containsKey(postId)) {
             commentNumber[postId] = commentNumber[postId]?.plus(1) ?: 0
         } else {
+            //if hash is not defined for the key
             commentNumber[postId] = 1
         }
     }
@@ -49,14 +51,19 @@ fun main(vararg args: String) {
     for (posts in postList) {
         val userId = posts.userId
         val postId = posts.id
+        //if hash defined for the key
         if (userAverage.containsKey(userId)) {
+            //sum of number of comments per user(cumulative sum)
             commentSum = userAverage[userId]?.get(0)!!
+            //total number of post per user
             commentPerUser = userAverage[userId]?.get(1)!!
+            //number to hold comments in the particular post
             val number = commentNumber[postId]
             number?.let { commentSum += number }
             commentPerUser += 1
             userAverage[userId] = arrayOf(commentSum, commentPerUser)
         } else {
+            //if hash is not defined for this key
             val number = commentNumber[postId]
             commentSum = number?.toFloat()!!
             commentPerUser = 1f
@@ -64,12 +71,27 @@ fun main(vararg args: String) {
         }
     }
 
-    //iterate through users to find average of each user with its id and name
-    for(users in userAverage.keys){
-        commentSum= userAverage[users]?.get(0)!!
-        commentPerUser=userAverage[users]?.get(1)!!
-        val average:Float=commentSum/commentPerUser
-        System.out.println("user id= "+users+ " average= "+average+"name= "+userList[users-1].name)
+    //iterate through users to find average of each user and store it in the key 'average'
+    for (users in userAverage.keys) {
+        commentSum = userAverage[users]?.get(0)!!
+        commentPerUser = userAverage[users]?.get(1)!!
+        val average: Float = commentSum / commentPerUser
+        //store the average in the key of `[User]` data model
+        userList[users - 1].average = average
+    }
+
+    //count to store the iteration for top3 users
+    var count = 0
+    for (users in userAverage.keys) {
+        //sort in descending order with respect to average
+        val userListWithAverage = userList.sortedByDescending { it.average }
+        userListWithAverage.map {
+            count++
+            //only print top3 users in desired format
+            if (count < 4) {
+                println(it.name + " - " + it.id + ", Score: " + it.average)
+            }
+        }
     }
 
 }

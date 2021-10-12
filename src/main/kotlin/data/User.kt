@@ -18,8 +18,8 @@ data class User(
     @SerializedName("website")
     val website: String,
     @SerializedName("company")
-    val company: Company
-
+    val company: Company,
+    var average:Float?
 )
 
 data class Address(
