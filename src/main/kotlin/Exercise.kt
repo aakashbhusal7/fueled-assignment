@@ -28,5 +28,13 @@ fun main(vararg args: String) {
     val postList = Data.getPosts<List<Post>>()
 
     val commentNumber: HashMap<Int, Int> = HashMap()
-
+    for (comments in commentList) {
+        val postId = comments.postId
+        if (commentNumber.containsKey(postId)) {
+            commentNumber[postId] = commentNumber[postId]?.plus(1) ?: 0
+        } else {
+            commentNumber[postId] = 1
+        }
+    }
+    System.out.println("values= "+commentNumber)
 }
